@@ -10,7 +10,7 @@ function BestSeller() {
     useEffect(() => {
         if (!products || products.length === 0) return;
         const bestProduct = products.filter((item) => (item.bestseller))
-        console.log(bestProduct)
+        //console.log(bestProduct)
         setBestSeller(bestProduct.slice(0, 5))
     }, [products])
     return (
