@@ -4,7 +4,7 @@ import { assets } from '../assets/assets';
 import Title from '../components/Title';
 import ProductItem from '../components/ProductItem';
 function Collection() {
-  const { products } = useContext(ShopContext);
+  const { products,search,showSearch } = useContext(ShopContext);
   const [showFilter, setshowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([])
   const [category, setCategory] = useState([]);
@@ -30,6 +30,10 @@ function Collection() {
  useEffect(() => {
   let productsCopy = products.slice();
 
+  if(showSearch && search){
+    productsCopy=productsCopy.filter(item=>item.name.toLowerCase().includes(search.toLowerCase()))
+  }
+
   // FILTER
   if (category.length > 0) {
     productsCopy = productsCopy.filter(item =>
@@ -52,7 +56,7 @@ function Collection() {
 
   setFilterProducts(productsCopy);
 
-}, [category, subCategory, sortType, products]);
+}, [category, subCategory, sortType, products,search,showSearch]);
 
   
 
@@ -78,7 +82,7 @@ function Collection() {
             </p>
           </div>
         </div>
-        \{/*subcateogry Filter*/}
+        {/*subcateogry Filter*/}
         <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
           <p className='mb-3 text-sm font-medium'>TYPE</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>

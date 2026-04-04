@@ -8,11 +8,11 @@ const ShopContextProvider = (props)=>{
     const currency = '₹';
     const deliveryFee = 10;
 
-    const [search, setsearch]=useState('');
-    const [showSearch,setShowSearch]= useState(true)
+    const [search, setSearch]=useState('');
+    const [showSearch,setShowSearch]= useState(false)
     const value ={
         products,currency,deliveryFee,
-        search,setsearch,showSearch,setShowSearch
+        search,setSearch,showSearch,setShowSearch
     }
 
     return (
