@@ -4,6 +4,13 @@
 frontend/node_modules/
 node_modules/
 Backend/node_modules/
+admin/node_modules/
 Backend/.env
 dist/
 build/
+
+# Logs
+*.log
+
+.DS_Store
+Thumbs.db
