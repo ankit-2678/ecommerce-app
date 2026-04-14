@@ -12,7 +12,7 @@ function NewsLetterBox() {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla unde officia labore! Porro nobis nisi iure quae ab, quos, aliquam voluptates ad sint cum, dolorem pariatur fugit natus mollitia praesentium?
             </p>
             <form onSubmit={onSubmithandler} className='w-full sm:w-1/2 flex items-center gap-3 mx-auto my-6 border pl-3' >
-                <input className='w-full sm:flex-1 outline-none ' type="email" placeholder='enter your email' required='true' />
+                <input className='w-full sm:flex-1 outline-none ' type="email" placeholder='enter your email' required />
                 <button className='bg-black text-white text-xs px-10 py-4 ' type='submit'>SUBSCRIBE</button>
             </form>
 
