@@ -68,22 +68,15 @@ const ShopContextProvider = (props) => {
 
     const updateQuantity = async (itemId, size, quantity) => {
         let cartData = structuredClone(cartItems);
-        if (!cartData[itemId]) return;
 
-        if (quantity === 0) {
-            delete cartData[itemId][size];
+        cartData[itemId][size] = quantity;
 
-            if (Object.keys(cartData[itemId]).length === 0) {
-                delete cartData[itemId];
-            }
-        }else{
-            cartData[itemId][size] = quantity;
-        }
+       
         setCartItems(cartData);
 
         if (token) {
             try {
-                await axios.patch(`${backendUrl}/api/cart/update`, { itemId, size, quantity }, { headers: { token } })
+                await axios.post(`${backendUrl}/api/cart/update`, { itemId, size, quantity }, { headers: { token } })
             } catch (error) {
                 console.log(error);
                 toast.error(error.message)
