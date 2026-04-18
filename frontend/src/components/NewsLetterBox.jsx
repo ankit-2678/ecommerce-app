@@ -1,12 +1,15 @@
 import React from 'react'
+import useScrollReveal from '../hooks/useScrollReveal';
 
 function NewsLetterBox() {
+    const [sectionRef, isSectionRevealed] = useScrollReveal();
+
     const onSubmithandler=(event)=>{
         event.preventDefault();
 
     }
     return (
-        <div className='text-center'>
+        <div ref={sectionRef} className={`text-center reveal-scale ${isSectionRevealed ? 'revealed' : ''}`}>
             <p className='text-2xl font-medium text-gray-800'>Subscribe now & get 20% off</p>
             <p className='text-gary-400 mt-3'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla unde officia labore! Porro nobis nisi iure quae ab, quos, aliquam voluptates ad sint cum, dolorem pariatur fugit natus mollitia praesentium?
