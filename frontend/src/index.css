@@ -116,6 +116,20 @@ a.active hr {
     font-weight: 400;
     font-style: normal;
 }
+
+
+.empty_cart img {
+  width: 80px;
+  opacity: 0.8;
+}
+.empty_cart h2 {
+  color: #111827;   /* strong dark */
+  font-weight: 600;
+}
+
+.empty_cart p {
+  color: #6b7280;   /* soft gray */
+}
 ::-webkit-scrollbar{
     display: none;
 }

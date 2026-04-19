@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ToastContainer,toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route } from 'react-router-dom'
@@ -7,10 +7,25 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import SearchBar from './components/SearchBar'
 function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return false
+    const savedTheme = window.localStorage.getItem('theme')
+    if (savedTheme) return savedTheme === 'dark'
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches
+  })
+
+  useEffect(() => {
+    const root = document.documentElement
+    root.classList.toggle('dark', darkMode)
+    window.localStorage.setItem('theme', darkMode ? 'dark' : 'light')
+  }, [darkMode])
+
+  const handleToggleTheme = () => setDarkMode(prev => !prev)
+
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+    <div className='app-shell min-h-screen bg-(--bg) text-(--text) px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] transition-colors duration-500'>
       <ToastContainer />
-      <Navbar/>
+      <Navbar darkMode={darkMode} onThemeToggle={handleToggleTheme} />
       <SearchBar/>
       <Routes>
         <Route path='/' element={<Home />} />

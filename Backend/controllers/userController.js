@@ -24,12 +24,14 @@ const loginUser = async (req,res) => {
             return res.json({success:false,message:"password is wrong"})
         }
         const token = createToken(user._id)
-        res.json({success:true,token})
+        res.json({success:true,token, user:{name:user.name, email:user.email}})
     } catch (error) {
         console.log(error)
         res.json({success:false,message:error.message})
     }
 }
+
+
 
 // route for user register
 
@@ -86,7 +88,8 @@ const adminLogin = async (req,res) => {
     }
 }
 
-export {loginUser,
+export {
+    loginUser,
     registerUser,
     adminLogin,
 };
