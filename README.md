@@ -185,6 +185,8 @@ npm run dev
 * Fully deployed and accessible online
 
 ---
+## 🔐 Security Update
+Sensitive environment variables have been removed and secured using Vercel environment configuration.
 
 ## 🚀 Future Improvements
 
