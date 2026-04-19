@@ -6,6 +6,14 @@ A full-stack e-commerce web application that allows users to browse products, ma
 
 ---
 
+## 🚀 Live Demo
+
+🌐 Frontend: https://ecommerce-app-frontend-dun.vercel.app
+🛠️ Admin Panel: https://ecommerce-app-admin-8173nion6-ankit-7048s-projects.vercel.app
+⚙️ Backend API: https://ecommerce-app-backend-azure.vercel.app
+
+---
+
 ## ✨ Features
 
 * 🔐 User Authentication (Login / Signup / Logout)
@@ -67,6 +75,7 @@ A full-stack e-commerce web application that allows users to browse products, ma
 ### Tools
 
 * Git & GitHub
+* Vercel (Deployment)
 * GitHub Copilot (used for UI enhancements)
 
 ---
@@ -77,24 +86,34 @@ A full-stack e-commerce web application that allows users to browse products, ma
 E_commerce_App/
 ├── frontend/
 │   ├── src/
-│   │   ├── components/      # UI components
-│   │   ├── pages/           # Pages (Home, Cart, Orders, etc.)
-│   │   ├── context/         # Global state (ShopContext)
-│   │   ├── hooks/           # Custom hooks
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── context/
+│   │   ├── hooks/
 │   │   └── App.jsx
 │   └── package.json
 │
 ├── Backend/
-│   ├── controllers/         # Business logic
-│   ├── models/              # MongoDB schemas
-│   ├── routes/              # API routes
-│   ├── middleware/          # Authentication & utilities
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
 │   └── server.js
 │
-├── admin/                   # Admin panel (optional)
+├── admin/
 │   ├── src/
 │   └── package.json
 ```
+
+---
+
+## 🚀 Deployment
+
+The application is deployed using Vercel:
+
+* Frontend and Admin Panel are deployed as separate Vercel projects
+* Backend is deployed using serverless functions
+* GitHub integration enables automatic redeployment on every push
 
 ---
 
@@ -117,10 +136,10 @@ npm install
 Create a `.env` file:
 
 ```
-MONGODB_URI=your_mongodb_url
-JWT_SECRET=your_secret_key
-STRIPE_SECRET_KEY=your_key
-RAZORPAY_KEY_ID=your_key
+MONGODB_URI=your_mongodb_url  
+JWT_SECRET=your_secret_key  
+STRIPE_SECRET_KEY=your_key  
+RAZORPAY_KEY_ID=your_key  
 ```
 
 Run backend:
@@ -139,7 +158,7 @@ npm run dev
 
 ---
 
-## 🚀 Usage
+## 🚀 Local Usage
 
 * Open: http://localhost:5173
 * Browse products
@@ -163,6 +182,7 @@ npm run dev
 * Real-world e-commerce workflow
 * Secure JWT-based authentication
 * Well-structured full-stack architecture
+* Fully deployed and accessible online
 
 ---
 
@@ -171,7 +191,7 @@ npm run dev
 * Wishlist functionality
 * Product reviews and ratings
 * Improved animations and UI transitions
-* Deployment (Vercel / Render)
+* Improve deployment scalability and performance
 * Performance optimization
 
 ---

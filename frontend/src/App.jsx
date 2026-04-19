@@ -15,10 +15,16 @@ function App() {
   })
 
   useEffect(() => {
-    const root = document.documentElement
-    root.classList.toggle('dark', darkMode)
-    window.localStorage.setItem('theme', darkMode ? 'dark' : 'light')
-  }, [darkMode])
+  const root = document.documentElement;
+
+  if (darkMode) {
+    root.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    root.classList.remove('dark');
+    localStorage.setItem('theme', 'light');
+  }
+}, [darkMode]);
 
   const handleToggleTheme = () => setDarkMode(prev => !prev)
 

@@ -43,12 +43,13 @@ function Navbar({ darkMode, onThemeToggle }) {
             <div className='flex items-center gap-4'>
                 <button
                     onClick={onThemeToggle}
-                    className='theme-toggle-btn rounded-full border border-(--border) bg-(--surface) text-(--text) transition-all duration-300 hover:-translate-y-0.5 dark:neon-glow-accent dark:border-opacity-50'
+                    className='p-2 rounded-full border border-(--border) bg-(--surface) transition-all duration-300 hover:scale-110'
                     title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 >
-                    {/* Sun Icon */}
+
+                    {/* Sun Icon (for LIGHT mode display) */}
                     <svg
-                        className={`sun-icon w-6 h-6 ${darkMode ? 'hidden' : ''}`}
+                        className={`w-6 h-6 ${darkMode ? 'hidden' : 'text-yellow-500'}`}
                         fill='none'
                         stroke='currentColor'
                         viewBox='0 0 24 24'
@@ -64,14 +65,15 @@ function Navbar({ darkMode, onThemeToggle }) {
                         <line x1='18.36' y1='5.64' x2='19.78' y2='4.22' strokeWidth='2' />
                     </svg>
 
-                    {/* Moon Icon */}
+                    {/* Moon Icon (for DARK mode display) */}
                     <svg
-                        className={`moon-icon w-6 h-6 ${darkMode ? '' : 'hidden'}`}
+                        className={`w-6 h-6 ${darkMode ? 'text-white' : 'hidden'}`}
                         fill='currentColor'
                         viewBox='0 0 24 24'
                     >
                         <path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' />
                     </svg>
+
                 </button>
                 <img onClick={() => setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer hover:scale-110 transition-all duration-200 hover:text-(--neon-accent)' alt="" />
 
@@ -83,7 +85,7 @@ function Navbar({ darkMode, onThemeToggle }) {
                         <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50'>
                             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-(--surface) text-(--text) rounded-lg shadow-soft-md depth-2 border border-(--border)'>
                                 <p className='cursor-pointer hover:text-(--muted) transition-colors'>My Profile</p>
-                                <p onClick={()=>navigate('/orders')} className='cursor-pointer hover:text-(--muted) transition-colors'>Orders</p>
+                                <p onClick={() => navigate('/orders')} className='cursor-pointer hover:text-(--muted) transition-colors'>Orders</p>
                                 <p onClick={() => logout()} className='cursor-pointer hover:text-(--muted) transition-colors'>Logout</p>
                             </div>
                         </div>
