@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState ,useRef,useEffect} from 'react'
 import { assets } from "../assets/assets"
 import { Link, NavLink } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext';
@@ -8,6 +8,8 @@ import { ShopContext } from '../context/ShopContext';
 function Navbar({ darkMode, onThemeToggle }) {
 
     const [visible, setVisible] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const dropdownRef = useRef();
 
     const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
     const logout = () => {
@@ -17,7 +19,18 @@ function Navbar({ darkMode, onThemeToggle }) {
         navigate('/login')
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
 
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className='flex items-center justify-between py-5'>
@@ -78,15 +91,24 @@ function Navbar({ darkMode, onThemeToggle }) {
                 <img onClick={() => setShowSearch(true)} src={assets.search_icon} className='w-5 cursor-pointer hover:scale-110 transition-all duration-200 hover:text-(--neon-accent)' alt="" />
 
                 <div className='group relative'>
-                    <img onClick={() => token ? null : navigate('/login')} className='w-5 cursor-pointer' src={assets.profile_icon} alt="" />
+                    <img
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (!token) navigate('/login');
+                            else setShowDropdown(prev => !prev);
+                        }}
+                        className='w-5 cursor-pointer'
+                        src={assets.profile_icon}
+                        alt=""
+                    />
                     {/** dropdown menu */}
                     {
-                        token &&
-                        <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4 z-50'>
+                        token && showDropdown && 
+                        <div ref={dropdownRef} className='absolute dropdown-menu right-0 pt-4 z-50'>
                             <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-(--surface) text-(--text) rounded-lg shadow-soft-md depth-2 border border-(--border)'>
-                                <p className='cursor-pointer hover:text-(--muted) transition-colors'>My Profile</p>
-                                <p onClick={() => navigate('/orders')} className='cursor-pointer hover:text-(--muted) transition-colors'>Orders</p>
-                                <p onClick={() => logout()} className='cursor-pointer hover:text-(--muted) transition-colors'>Logout</p>
+                                <p onClick={() => {navigate('/profile'); setShowDropdown(false)}} className='cursor-pointer hover:text-(--muted) transition-colors'>My Profile</p>
+                                <p onClick={() => {navigate('/orders'); setShowDropdown(false)}} className='cursor-pointer hover:text-(--muted) transition-colors'>Orders</p>
+                                <p onClick={() => {logout(); setShowDropdown(false)}} className='cursor-pointer hover:text-(--muted) transition-colors'>Logout</p>
                             </div>
                         </div>
                     }

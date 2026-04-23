@@ -19,7 +19,7 @@ function Add({token}) {
 
       image1 && formData.append("image1",image1)
       image2 && formData.append("image2",image2)
-      image3 && formData.append("image1",image3)
+      image3 && formData.append("image3",image3)
       image4 && formData.append("image4",image4)
       
       const response = await axios.post(backendUrl+'/api/product/add',formData,{headers:{token}})
@@ -27,12 +27,14 @@ function Add({token}) {
       if(response.data.success){
         toast.success(response.data.message)
         setName('')
-        setDescription('')
+        //setDescription('')
         setImage1(false)
         setImage2(false)
         setImage3(false)
         setImage4(false)
         setPrice('')
+        setbestseller(false)
+        setSizes([])
       }else{
         toast.error(response.data.message)
       }
@@ -55,7 +57,7 @@ function Add({token}) {
   const [price, setPrice] = useState('')
   const [category, setCategory] = useState('Men')
   const [subCategory, setSubCategory] = useState('Topwear')
-  const [bestseller, setBestseller] = useState(false)
+  const [bestseller, setbestseller] = useState(false)
   const [sizes, setSizes] = useState([])
 
 
@@ -139,7 +141,7 @@ function Add({token}) {
       </div>
 
       <div className='flex gap-2 mt-2'>
-        <input onChange={()=>setBestseller(prev=> !prev)} checked={bestseller} type="checkbox" id="bestseller" />
+        <input onChange={()=>setbestseller(prev=> !prev)} checked={bestseller} type="checkbox" id="bestseller" />
         <label className='cursor-pointer' htmlFor="bestseller">Add to bestseller</label>
       </div>
 
