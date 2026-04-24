@@ -11,6 +11,7 @@ function Profile() {
   const [form, setForm] = useState({ name: "", address: "" })
   const [image, setImage] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [showImage, setShowImage] = useState(false)
 
   const fetchProfile = async () => {
     try {
@@ -40,7 +41,7 @@ function Profile() {
 
       const formData = new FormData()
       formData.append("name", form.name)
-      
+
 
       if (image) formData.append("image", image)
 
@@ -54,7 +55,7 @@ function Profile() {
         setUser(res.data.user)
         setForm({
           name: res.data.user.name,
-          
+
         })
         setImage(null)
         setEditMode(false)
@@ -70,7 +71,26 @@ function Profile() {
   if (!user) return <p className='p-6'>Loading...</p>
 
   return (
+
     <div className='p-6 text-(--text)'>
+      {showImage && (
+        <div
+          className="fixed inset-0 backdrop-blur-md bg-black/40 flex items-center justify-center z-50"
+          onClick={() => setShowImage(false)}
+        >
+          <button
+            className="absolute top-5 right-5 text-white text-2xl bg-black/50 px-3 py-1 rounded-full hover:bg-black transition"
+            onClick={() => setShowImage(false)}
+          >
+            ✕
+          </button>
+          <img
+            onClick={(e) => e.stopPropagation()}
+            src={image ? URL.createObjectURL(image) : user?.image || "/default.png"}
+            className="max-w-[90%] max-h-[90%] rounded-lg shadow-lg scale-95 animate-zoomIn"
+          />
+        </div>
+      )}
 
       <h1 className='text-3xl font-semibold mb-8'>My Profile</h1>
 
@@ -78,7 +98,7 @@ function Profile() {
 
         {/* Profile Image with Hover Upload */}
         <div className="relative group w-28 h-28 mx-auto mb-6">
-          <img
+          <img onClick={() => setShowImage(true)}
             src={image ? URL.createObjectURL(image) : user?.image || "/default.png"}
             className="w-28 h-28 rounded-full object-cover border"
           />
@@ -114,7 +134,7 @@ function Profile() {
         </div>
 
         {/* Address */}
-        
+
 
         {/* Buttons */}
         <div className='flex gap-3 mt-6'>

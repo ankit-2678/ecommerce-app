@@ -7,26 +7,26 @@ import RelatedProducts from '../components/RelatedProducts';
 function Product() {
 
   const { productId } = useParams();
-  const { products, currency,addToCart } = useContext(ShopContext);
+  const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(false);
   const [image, setImage] = useState('')
   const [size, setSize] = useState('')
 
 
   const fetchProductData = async () => {
-    products.map((item) => {
-      if (item._id === productId) {
-        setProductData(item)
-        //console.log(item)
-        setImage(item.image[0])
-        return null;
-      }
-    })
+    const product = products.find(item => item._id === productId);
+
+    if (product) {
+      setProductData(product);
+      setImage(product.image[0]);
+      setSize('');
+    }
   }
 
   useEffect(() => {
-    fetchProductData()
-  }, [products])
+    fetchProductData();
+    window.scrollTo(0, 0);
+  }, [productId, products])
 
   //console.log(productId)
   return productData ? (
@@ -70,13 +70,12 @@ function Product() {
             <p>Select Size</p>
             <div className='flex gap-2'>
               {productData.sizes.map((item, index) => (
-                <button 
-                  onClick={() => setSize(item)} 
-                  className={`border border-(--border) py-2 px-4 bg-(--surface) text-(--text) hover:bg-(--surface-elevated) transition-colors duration-200 ${
-                    item === size 
-                      ? 'border-orange-500 bg-orange-500 text-white font-medium' 
-                      : 'hover:border-(--text)'
-                  }`} 
+                <button
+                  onClick={() => setSize(item)}
+                  className={`border border-(--border) py-2 px-4 bg-(--surface) text-(--text) hover:bg-(--surface-elevated) transition-colors duration-200 ${item === size
+                    ? 'border-orange-500 bg-orange-500 text-white font-medium'
+                    : 'hover:border-(--text)'
+                    }`}
                   key={index}
                 >
                   {item}
@@ -84,7 +83,7 @@ function Product() {
               ))}
             </div>
           </div>
-          <button onClick={()=>addToCart(productData._id,size)} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>
+          <button onClick={() => addToCart(productData._id, size)} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700'>
             ADD TO CART
           </button>
           <hr className='mt-8 sm:w-4/5' />
@@ -111,7 +110,7 @@ function Product() {
 
           {/* diplay related products  */}
 
-          <RelatedProducts category = {productData.category} subCategory = {productData.subCategory}/>
+          <RelatedProducts category={productData.category} subCategory={productData.subCategory} productId={productData._id} />
         </div>
       </div>
     </div>
