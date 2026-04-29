@@ -23,7 +23,7 @@ function BestSeller() {
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque voluptate quis incidunt quia quasi adipisci quam fugiat sit, dolorum sequi doloremque quos! Aspernatur dolor aut saepe deleniti. Voluptatem, ut accusamus!
                 </p>
             </div>
-            <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 gap-y-8' >
+            <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5 gap-6 gap-y-8' >
                 {
                     bestseller.map((item,index)=>(
                         <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} index={index}/>

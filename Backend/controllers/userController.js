@@ -99,7 +99,9 @@ const getUserProfile = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 _id: user._id,
-                image: user.image
+                image: user.image,
+                address: user.address,
+                phone: user.phone
             }
         });
 
@@ -111,10 +113,13 @@ const getUserProfile = async (req, res) => {
 const updateUserProfile = async (req, res) => {
     try {
         const user = req.user;
-        const { name } = req.body;
+        const { name, address, phone } = req.body;
+
+        if (phone && phone.length < 10) {
+            return res.json({ success: false, message: "Invalid phone number" });
+        }
 
         let imageUrl = user.image;
-
 
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path, {
@@ -124,23 +129,80 @@ const updateUserProfile = async (req, res) => {
             imageUrl = result.secure_url;
         }
 
+        const updatedData = {
+            name: name || user.name,
+            address: address || user.address,
+            phone: phone || user.phone,
+            image: imageUrl
+        };
+
         const updatedUser = await userModel.findByIdAndUpdate(
             user._id,
-            { name,  image: imageUrl },
+            updatedData,
             { returnDocument: "after" }
         ).select("-password");
 
-        res.json({ success: true, user: updatedUser });
+        res.json({
+            success: true,
+            user: {
+                name: updatedUser.name,
+                email: updatedUser.email,
+                image: updatedUser.image,
+                address: updatedUser.address,
+                phone: updatedUser.phone,
+                _id: updatedUser._id
+            }
+        });
 
     } catch (error) {
         console.log("PROFILE UPDATE ERROR:", error);
         res.json({ success: false, message: error.message });
     }
-};;
+};
+
+const changeUserPassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const user = await userModel.findById(req.user._id);
+
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        if (!currentPassword || !newPassword) {
+            return res.json({ success: false, message: 'Both current and new passwords are required' });
+        }
+
+        if (newPassword.length < 6) {
+            return res.json({ success: false, message: 'New password must be at least 6 characters' });
+        }
+
+        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isCurrentPasswordValid) {
+            return res.json({ success: false, message: 'Current password is incorrect' });
+        }
+
+        const isSamePassword = await bcrypt.compare(newPassword, user.password);
+        if (isSamePassword) {
+            return res.json({ success: false, message: 'New password must be different from current password' });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+        await user.save();
+
+        res.json({ success: true, message: 'Password updated successfully' });
+    } catch (error) {
+        console.log('CHANGE PASSWORD ERROR:', error);
+        res.json({ success: false, message: error.message });
+    }
+};
+
 export {
     loginUser,
     registerUser,
     adminLogin,
     getUserProfile,
     updateUserProfile,
+    changeUserPassword,
 };
